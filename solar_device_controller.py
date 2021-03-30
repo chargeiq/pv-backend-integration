@@ -6,9 +6,15 @@ try:
     db = couch.create('solar_device')
 except:
     db = couch['solar_device']
+#create
 
+#read
 def get_solar_device(id):
     pass
 
 def get_solar_device(id):
     pass
+
+# update
+
+# delete
