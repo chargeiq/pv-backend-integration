@@ -3,9 +3,10 @@ import uuid
 
 
 class solar_device:
-    def init(self, name, solar_device_id, kwp,user_id):
+    def init(self, name, site_id, solar_device_id, kwp,user_id):
         self._id = uuid.uuid4() # This is the internal ID in couchdb
         self.name = name # This ID can be configured by the user
+        self.site_id = site_id
         self.solar_device_id = solar_device_id # This is the ID 
         self.kwp = kwp # This is the kwp of a solar device
         self.relation = {

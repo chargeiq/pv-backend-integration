@@ -1,15 +1,15 @@
 import requests
 import time, json
 from flask import Flask, jsonify, request, Response, render_template, make_response, g
-import solar_device #, solar_device_controller
+import solar_device, solar_device_controller
 
 app = Flask(__name__)
 api_key = 'L48sslW6ON'
 
 # It comes with example link
 
-def create_solar(site_id):
-    pass
+def create_solar(site_id, name, solar_device_id, kwp,user_id):
+    solar_device_controller.update_solar_device()
 
 def get_solar(site_id):
     solar_device_controller.get_solar_device()
