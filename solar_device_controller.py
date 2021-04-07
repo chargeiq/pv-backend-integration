@@ -12,9 +12,27 @@ def create_device(solar_device):
     print("saving in couchdb")
     db.save(solar_device)
     return("finished")
+
 #read
-def get_solar_device(id):
-    pass
+def get_solar_device(id, user_id):
+    query = {
+        "selector": {  
+            "solar_device_id": {
+                "$eq": id
+            },     
+            "relation": {
+                "user_id": user_id
+            }
+        }
+    }
+    temp_solar = db.find(query)
+    
+    print(temp_solar)
+    if temp_solar != None:
+        print("Found object")
+        print(temp_solar)
+
+    return temp_solar
 
 def test():
     print("testtest")

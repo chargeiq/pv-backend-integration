@@ -42,18 +42,28 @@ def get_solar_station_info(site_id):
         location = req_body['location']
         print(peak_power)
         user_id = "111"
-        solar_station = solar_device.solar_device(str(uuid.uuid4()), "1", site_name, "1", float(peak_power), user_id)
+        solar_station = solar_device.solar_device(str(uuid.uuid4()), "1", site_name, site_id, float(peak_power), user_id)
+        if solar_device_controller.get_solar_device(site_id, user_id) != None:
 
-        
-        solar_device_controller.create_device(solar_station.__dict__)
+            # if solar device already in DB
+            solar_device_controller.create_device(solar_station.__dict__)
 
-        resp = make_response(
-            jsonify(
-                action = '/get-solaredge-station-info',
-                status = 'OK'
+            resp = make_response(
+                jsonify(
+                    action = '/get-solaredge-station-info',
+                    status = 'OK'
+                    )
                 )
-            )
-        return resp 
+            return resp 
+        else:
+            
+            resp = make_response(
+                jsonify(
+                    action = '/get-solaredge-station-info',
+                    status = 'Solar anlage already exists'
+                    )
+                )
+            return resp 
 
     
 
