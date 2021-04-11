@@ -12,12 +12,13 @@ class solar_device:
         self.relation = {
             'user_id': user_id
         }
+        self.actual_power = 0.0
 
     def set_actual_power(self, power): 
-        self.power = power
+        self.actual_power = power
 
     def get_actual_power(self, power): 
-        return self.power
+        return self.actual_power
         
     def serialize(self):
         return json.dumps(self.__dict__, default=lambda o: o.__dict__, indent=4) # , cls = ObjectEncoder, indent=4)
