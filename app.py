@@ -1,5 +1,5 @@
 import requests
-import time, json
+import time, json, datetime
 from flask import Flask, jsonify, request, Response, render_template, make_response, g
 import solar_device, uuid
 import solar_device_controller
@@ -9,26 +9,33 @@ from random import *
 app = Flask(__name__)
 api_key = 'L48sslW6ON'
 
-# For simulations
-kwp_array = [0,0,0,0,0,2,3,4,6,7,9,10,11,11,10,8,6,5,4,3,0,0,0,0]
-print(len(kwp_array))
+# A normed array in relation to kwp, For simulations
+kwp_array = [0,0,0,0,0,0.2,0.3,0.4,0.6,0.7,0.9,0.9,1.0,1.0,0.9,0.8,0.6,0.5,0.4,0.3,0.15,0,0,0]
+
 # It comes with example link
 
-def get_solar(site_id):
+def get_solar_device(site_id):
+    
     solar_device_controller.get_solar_device()
 
 @app.route("/update-solaredge-station-info/<site_id>/", methods = ['GET'])
 def update_solar_power(site_id):
     # This needs a real solar power api
-    end_time = time.localtime( time.time() )
-    start_time = time.localtime( time.time()  )
+    end_time = time.localtime(time.time())
+    start_time = time.localtime(time.time())
     # TODO: Use real API
+    # For other manufactureres this API can be switched to other manufacturers
     url = 'https://monitoringapi.solaredge.com/site/'  \
         + site_id + '/power?startTime=' + str(start_time) \
         + '&endTime = ' + str(end_time)
-    current_power = float(randint(1000, 11000)) / 1000.0
-    print(current_power)
+
+    current_hour = datetime.datetime.now().hour
+
+    print('Current time is: ' + str(current_hour))
     print(url)
+
+    user_id = "111"
+    print(solar_device_controller.get_solar_device(site_id, user_id).serialize() )
     # resp = requests.get(url)
     # print(resp.text)
 
@@ -117,4 +124,5 @@ def update_solaredge_station_info(site_id, kwp):
             return resp     
 
 if __name__ == '__main__': 
+    update_solar_power("1")
     app.run(host='0.0.0.0', port= 5001, use_reloader = False) # avoids a loop running twice and flask using two instances. 

@@ -1,4 +1,4 @@
-import couchdb, json
+import couchdb, json, solar_device
 
 try:
     couch = couchdb.Server('http://admin:password@192.168.33.113:5984/')
@@ -30,9 +30,16 @@ def get_solar_device(id, user_id):
     print(temp_solar)
     if temp_solar != None:
         print("Found object")
-        print(temp_solar)
+        print(temp_solar)#
 
-    return temp_solar
+        result = None
+        for s in temp_solar:
+            result = solar_device.solar_device(s.id, s['name'], s['site_name'], s['solar_device_id'], s['kwp'], s['relation']['user_id'])
+            
+            print(result._id)
+        return result
+    else:
+        return None
 
 def test():
     print("testtest")
